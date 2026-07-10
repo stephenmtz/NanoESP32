@@ -74,5 +74,29 @@ namespace drivers {
         return static_cast<float>(lsb) * 4.375f; 
     }
 
-    float 
+    float LSM6DSOX::sm6soxzFromFs250ToMdpsToMdps(uint16_t lsb){ 
+        return static_cast<float>(lsb) * 8.750f;
+    }
+
+    float LSM6DSOX::sm6soxzFromFs500ToMdpsToMdps(uint16_t lsb){ 
+        return static_cast<float>(lsb) * 17.50f;
+    }
+
+    float LSM6DSOX::sm6soxzFromFs1000ToMdpsToMdps(uint16_t lsb){ 
+        return static_cast<float>(lsb) * 35.0f;
+    }
+
+    float LSM6DSOX::sm6soxzFromFs2000ToMdpsToMdps(uint16_t lsb){ 
+        return static_cast<float>(lsb) * 70.0f;
+    }
+
+    float LSM6DSOX::lsm6soxzFromLsbToCelsius(uint16_t lsb){ 
+        return ((static_cast<float>(lsb) / 256.0f) + 25.0f);
+    }
+
+    float lsm6soxzFromLsbToNsec(uint16_t lsb){
+        return (static_cast<float>(lsb) * 25000.0f);
+    }
+
+    
 }

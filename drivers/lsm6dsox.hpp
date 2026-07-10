@@ -30,6 +30,12 @@ class LSM6DSOX {
         float lsm6soxzFromFs8ToMg(int16_t lsb);
         float lsm6soxzFromFs16ToMg(int16_t lsb);
         float lsm6soxzFromFs125ToMdps(int16_t lsb);
+        float lsm6soxzFromFs250ToMdps(int16_t lsb);
+        float lsm6soxzFromFs500ToMdps(uint16_t lsb); 
+        float lsm6soxzFromFs1000ToMdps(uint16_t lsb);
+        float lsm6soxzFromFs2000ToMdps(uint16_t lsb);
+        float lsm6soxzFromLsbToCelsius(uint16_t lsb);
+        float lsm6soxzFromLsbToNsec(uint16_t lsb);
         
         enum AccelOdr : RegVal {
             kXlOdrOff = 0x00,
