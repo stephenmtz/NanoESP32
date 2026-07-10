@@ -2,7 +2,7 @@
 #include "freertos/FreeRTOS.h"
 #include "esp_log.h"
 
-namespace drivers::LSM6DSOX{
+namespace drivers {
 
     static const char* TAG = "LSM6DSOX";
 
@@ -10,8 +10,6 @@ namespace drivers::LSM6DSOX{
         : i2c_(std::move(i2c)), i2c_addr_(addr){
             configASSERT(i2c_ != nullptr);
         }
-
-    LSM6DSOX::~LSM6DSOX() = default;
 
     std::optional<LSM6DSOX::RegVal> LSM6DSOX::readReg(RegAddr reg_addr){
         RegVal val;

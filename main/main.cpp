@@ -34,7 +34,7 @@ extern "C" void app_main(void) {
     ESP_ERROR_CHECK(i2c_new_master_bus(&bus_cfg, &bus));
 
     auto i2c = std::make_shared<hal::EspI2C>(bus);
-    drivers::LSM6DSOX::LSM6DSOX imu(i2c, drivers::LSM6DSOX::LSM6DSOX::kDeviceAddLow);
+    drivers::LSM6DSOX imu(i2c, drivers::LSM6DSOX::kDeviceAddLow);
 
     if (!imu.init()) {
         ESP_LOGE(TAG, "IMU init failed");

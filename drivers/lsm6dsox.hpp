@@ -5,7 +5,7 @@
 
 #include "i2c.hpp"
 
-namespace drivers::LSM6DSOX {
+namespace drivers {
 
 class LSM6DSOX {
     public:
@@ -25,11 +25,11 @@ class LSM6DSOX {
         bool init();
         bool reset();
         bool whoAmI(uint8_t &id);
-        float lsm6soxzFromFs2ToMg(uint16_t &lsb);
-        float lsm6soxzFromFs4ToMg(uint16_t &lsb);
-        float lsm6soxzFromFs8ToMg(uint16_t &lsb);
-        float lsm6soxzFromFs16ToMg(uint16_t &lsb); 
-        float lsm6soxzFromFs125ToMdps(uint16_t &lsb); 
+        float lsm6soxzFromFs2ToMg(int16_t lsb);
+        float lsm6soxzFromFs4ToMg(int16_t lsb);
+        float lsm6soxzFromFs8ToMg(int16_t lsb);
+        float lsm6soxzFromFs16ToMg(int16_t lsb);
+        float lsm6soxzFromFs125ToMdps(int16_t lsb);
         
         enum AccelOdr : RegVal {
             kXlOdrOff = 0x00,
