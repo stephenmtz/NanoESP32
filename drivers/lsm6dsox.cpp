@@ -126,7 +126,7 @@ namespace drivers {
     float LSM6DSOX::lsm6soxzFromFs8ToMg(int16_t lsb){ 
         return static_cast<float>(lsb) * 0.244f; 
     }
-    
+
     float LSM6DSOX::lsm6soxzFromFs16ToMg(int16_t lsb){ 
         return static_cast<float>(lsb) * 0.488f; 
     }
