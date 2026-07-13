@@ -36,7 +36,37 @@ extern "C" void app_main(void) {
     auto i2c = std::make_shared<hal::EspI2C>(bus);
     drivers::LSM6DSOX imu(i2c, drivers::LSM6DSOX::kDeviceAddLow);
 
-    if (!imu.init()) {
-        ESP_LOGE(TAG, "IMU init failed");
+    if (!imu.init()){
+        ESP_LOGE(TAG, "IMU init failed, check wiring/address");
+        return;                        
+    }
+
+    if (!imu.setAccelFullScale(drivers::LSM6DSOX::kXlFs2g) ||
+        !imu.setAccelOdr(drivers::LSM6DSOX::kXlOdr104Hz)){
+        ESP_LOGE(TAG, "Accel config failed");
+        return;
+    }
+
+    for (uint8_t reg = 0x10; reg <= 0x19; ++reg){  
+        uint8_t val;
+        if (i2c->read(drivers::LSM6DSOX::kDeviceAddLow, reg, val)) {
+            ESP_LOGI(TAG, "0x%02X = 0x%02X", reg, val);
+        }
+    }
+
+    vTaskDelay(pdMS_TO_TICKS(100));      
+
+    while (true){
+        int16_t x, y, z;
+        if (imu.readAccel(x, y, z)){   
+            ESP_LOGI(TAG, "raw[%6d %6d %6d]  mg[%8.1f %8.1f %8.1f]",
+                    x, y, z,
+                    imu.lsm6soxzFromFs2ToMg(x),
+                    imu.lsm6soxzFromFs2ToMg(y),
+                    imu.lsm6soxzFromFs2ToMg(z));
+        } else {
+            ESP_LOGW(TAG, "readAccel failed");
+        }
+        vTaskDelay(pdMS_TO_TICKS(100));
     }
 }

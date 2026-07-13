@@ -31,12 +31,12 @@ class LSM6DSOX {
         float lsm6soxzFromFs16ToMg(int16_t lsb);
         float lsm6soxzFromFs125ToMdps(int16_t lsb);
         float lsm6soxzFromFs250ToMdps(int16_t lsb);
-        float lsm6soxzFromFs500ToMdps(uint16_t lsb); 
-        float lsm6soxzFromFs1000ToMdps(uint16_t lsb);
-        float lsm6soxzFromFs2000ToMdps(uint16_t lsb);
-        float lsm6soxzFromLsbToCelsius(uint16_t lsb);
-        float lsm6soxzFromLsbToNsec(uint16_t lsb);
-        
+        float lsm6soxzFromFs500ToMdps(int16_t lsb); 
+        float lsm6soxzFromFs1000ToMdps(int16_t lsb);
+        float lsm6soxzFromFs2000ToMdps(int16_t lsb);
+        float lsm6soxzFromLsbToCelsius(int16_t lsb);
+        float lsm6soxzFromLsbToNsec(int16_t lsb);
+
         enum AccelOdr : RegVal {
             kXlOdrOff = 0x00,
             kXlOdr12_5Hz = 0x01,
@@ -71,6 +71,7 @@ class LSM6DSOX {
         };
 
         bool setAccelOdr(AccelOdr odr);
+         bool readAccelBurst(int16_t& x, int16_t& y, int16_t& z); 
         bool setAccelFullScale(AccelFullScale fs);
         bool setAccelLpf(AccelLpfBw bw);
         bool readAccel(int16_t& x, int16_t& y, int16_t& z);
@@ -233,7 +234,8 @@ class LSM6DSOX {
             kTagMlc = 0x1A,
         };
 
-        bool setFifoMode(FifoMode mode);
+        bool setFifoModeGyro(FifoMode mode);
+        bool setFifoModeAccel(FifoMode mode);
         bool setFifoWatermark(uint16_t wtm);
         bool setFifoBatchXl(FifoBdr bdr);
         bool setFifoBatchGyro(FifoBdr bdr);
@@ -250,7 +252,7 @@ class LSM6DSOX {
 
         bool setAccelPowerMode(XlPowerMode mode);
         bool setGyroHighPerf(bool enable);
-        bool sleep(bool enable);
+        bool sleepGyro(bool enable);
 
         enum SelfTestMode : RegVal {
             kStDisabled = 0x00,
@@ -292,11 +294,13 @@ class LSM6DSOX {
 
         bool setAccelUserOffset(int8_t x, int8_t y, int8_t z);
         bool enableAccelUserOffset(bool enable);
+        bool enableAccelLowPowerMode(bool enable);
 
     private:
         hal::I2C::SharedPtr i2c_;
         const I2CAddr i2c_addr_;
-
+        static constexpr RegMask kSleepGMask = 0x40;   
+        static constexpr RegMask kXlUlpMask = 0x80;   
         static constexpr RegAddr kFuncCfgAccess = 0x01;
         static constexpr RegAddr kPinCtrl = 0x02;
         static constexpr RegAddr kFifoCtrl1 = 0x07;

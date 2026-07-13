@@ -14,6 +14,9 @@ class EspI2C : public I2C {
         EspI2C(const EspI2C&);
         EspI2C& operator=(const EspI2C&);
 
+        using I2C::read; 
+        using I2C::write; 
+        
         bool read(uint8_t addr, uint8_t reg, void *data, size_t length) override;
         bool write(uint8_t addr, uint8_t reg, const void *data, size_t length) override;
 
