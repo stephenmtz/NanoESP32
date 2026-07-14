@@ -71,15 +71,14 @@ namespace drivers {
         if (!writeBitField(kCtrl3C, kSwResetMask, 0, 1)) {
             return false;
         }
-        for (int i = 0; i < 10; ++i) {
+
+        vTaskDelay(pdMS_TO_TICKS(5));
+        for (int i = 0; i < 20; ++i) {
             auto val = readReg(kCtrl3C);
-            if (!val) {
-                return false;
-            }
-            if ((*val &kSwResetMask) == 0) {
+            if (val && (*val & kSwResetMask) == 0) {
                 return true;
             }
-            vTaskDelay(pdMS_TO_TICKS(1));
+            vTaskDelay(pdMS_TO_TICKS(5));
         }
         ESP_LOGE(TAG, "Software reset timed out");
         return false;
@@ -170,6 +169,22 @@ namespace drivers {
     bool LSM6DSOX::accelDataReady(){
         auto s = readStatus();
         return s.has_value() && (*s &XL_DA);
+    }
+
+    bool LSM6DSOX::setInt1Ctrl(RegVal bits){
+        return writeReg(kInt1Ctrl, bits);
+    }
+
+    bool LSM6DSOX::setInt2Ctrl(RegVal bits){
+        return writeReg(kInt2Ctrl, bits);
+    }
+
+    bool LSM6DSOX::routeInt1(RegVal md1Cfg){
+        return writeReg(kMd1Cfg, md1Cfg);
+    }
+
+    bool LSM6DSOX::routeInt2(RegVal md2Cfg){
+        return writeReg(kMd2Cfg, md2Cfg);
     }
 
 }  // namespace drivers
