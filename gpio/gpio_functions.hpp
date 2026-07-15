@@ -7,9 +7,9 @@
 
 namespace gpio_functions {
 
-    static constexpr gpio_num_t kAccelInt1Pin = GPIO_NUM_2;
-    static constexpr uint64_t kAccelInt1PinMask = (1ULL << kAccelInt1Pin);
+static constexpr gpio_num_t kAccelInt1Pin = GPIO_NUM_2;
+static constexpr uint64_t kAccelInt1PinMask = (1ULL << kAccelInt1Pin);
 
-    void setupAccelInterrupt(drivers::LSM6DSOX& imu);
+void setupAccelInterrupt(drivers::LSM6DSOX& imu);
 
 }  // namespace gpio_functions

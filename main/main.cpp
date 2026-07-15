@@ -23,10 +23,11 @@ extern "C" void app_main(void) {
         .glitch_ignore_cnt = 7,
         .intr_priority = 0,
         .trans_queue_depth = 0,
-        .flags = {
-            .enable_internal_pullup = true,
-            .allow_pd = false,
-        },
+        .flags =
+            {
+                .enable_internal_pullup = true,
+                .allow_pd = false,
+            },
     };
 
     i2c_master_bus_handle_t bus;
